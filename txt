@@ -1,0 +1,34 @@
+
+---
+
+### **2. `separate_voices.m` (MATLAB Script)**
+```matlab
+% VOICE SEPARATION USING TIME-DOMAIN SEGMENTATION
+% Authors: [Your Name], [Team Members]
+% Description: Isolates vocal segments from mixed audio based on predefined time ranges.
+
+clc; clear;
+
+% Load input audio file
+[input_audio, fs] = audioread('audio_samples/input/What_Lovers_Do_ft_SZA.mp3');
+
+% Define vocal segments (in seconds)
+levine_segment = [0, 61];   % Levine: 0s to 61s
+sza_segment = [62, 76];     % SZA: 62s to 76s
+
+% Convert time to samples (ensure 1-based indexing)
+levine_samples = round(levine_segment * fs);
+levine_samples(1) = max(levine_samples(1), 1);  % Prevent index ≤ 0
+
+sza_samples = round(sza_segment * fs);
+sza_samples(1) = max(sza_samples(1), 1);
+
+% Extract segments
+levine_voice = input_audio(levine_samples(1):levine_samples(2), :);
+sza_voice = input_audio(sza_samples(1):sza_samples(2), :);
+
+% Save output files
+audiowrite('audio_samples/output/levine_voice.wav', levine_voice, fs);
+audiowrite('audio_samples/output/sza_voice.wav', sza_voice, fs);
+
+disp('Vocal separation completed! Check /audio_samples/output/');
