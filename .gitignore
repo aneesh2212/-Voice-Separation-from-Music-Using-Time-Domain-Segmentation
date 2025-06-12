@@ -1,0 +1,4 @@
+*.asv
+*.m~
+*.mat
+/audio_samples/input/*.mp3   # Exclude large input files (users add their own)
